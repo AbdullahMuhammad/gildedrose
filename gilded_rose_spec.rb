@@ -27,6 +27,27 @@ describe GildedRose do
       expect(items[1].sell_in).to eq -5
     end
 
+    it 'increases quality for Aged Brie' do
+      items = [Item.new('Aged Brie', 5, 20)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 21
+      expect(items[0].sell_in).to eq 4
+    end
+
+    it 'increases quality for Aged Brie by two fold after sell_in' do
+      items = [Item.new('Aged Brie', -5, 20)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 22
+      expect(items[0].sell_in).to eq -6
+    end
+
+    it 'does not increases quality for Aged Brie beyond 50' do
+      items = [Item.new('Aged Brie', 5, 50)]
+      GildedRose.new(items).update_quality()
+      expect(items[0].quality).to eq 50
+      expect(items[0].sell_in).to eq 4
+    end
+
     it 'degrades quality of conjured items by 2 before sell_in' do
       items = [Item.new('Conjured Mana Cake', 10, 10)]
       GildedRose.new(items).update_quality()
